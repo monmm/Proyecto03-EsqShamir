@@ -1,6 +1,8 @@
 import getpass
 import hashlib
 from Crypto.Cipher import AES
+
+from evalua import Evalua
    
 class Cifrar:      
 
@@ -22,13 +24,13 @@ class Cifrar:
         k = int.from_bytes(hashlib.sha256(pswd.encode('utf-8')).digest(), 'big')
 
         Cifrar.getEvArch(nombre, n, t, k)        
-        with open(claro, 'rb') as fo:
-            plaintext = fo.read()
-            Cifrar.getEncriptado
+        #with open(claro, 'rb') as fo:
+        #    plaintext = fo.read()
+            #Cifrar.getEncriptado
                 
     def getEvArch(nombre, n, t, k):
         # Crear las evaluaciones del polinomio
-        ev = Cifrar.toString(Cifrar.getEvaluaciones(n,t,k))
+        ev = Evalua.toString(Evalua.getEvaluaciones(n,t,k))
         if "." not in nombre: 
             nombre += ".frg" 
         else:

@@ -3,7 +3,7 @@ from binascii import unhexlify
 from Crypto.Cipher import AES
 #from Crypto.Protocol.SecretSharing import Shamir
 
-class Descirfrar:
+class Descifrar:
     
     def llamaDecifrar(arr):
         """
@@ -23,7 +23,7 @@ class Descirfrar:
        # arch_des.write(mensaje_dev)
         arch_des.close()
         print ("Mensaje obtenido en: ", des)
-        
+
     def reconstructSecret(shares):                   
     
         sums, prod_arr = 0, [] 
