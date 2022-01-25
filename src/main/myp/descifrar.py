@@ -1,28 +1,25 @@
 from decimal import *
-from binascii import unhexlify
-from Crypto.Cipher import AES
-#from Crypto.Protocol.SecretSharing import Shamir
+from Cryptodome.Cipher import AES
 
 class Descifrar:
     
-    def llamaDecifrar(arr):
+    def getDescifrado(min_ev, cifrado):
         """
         Llama al metodo correspondiente para descifrar y 
         guarda el mensaje descifrado con el nombre original.
         
         Parametros:
         arr -- la entrada con los argumentos recibidos
-        """
-       # mensaje_dev = Develar.devela(arr[0])
-        des = arr[1]
-        if "." not in des: 
-            des += ".txt" 
+        """            
+        evaluaciones = []   
+        if "." not in min_ev: 
+            min_ev += ".frg" 
         else:
-            des = "".join(arr[1].split(".")[0:-1]) + ".txt"
-        arch_des = open(des, "w")             
-       # arch_des.write(mensaje_dev)
-        arch_des.close()
-        print ("Mensaje obtenido en: ", des)
+            min_ev = "".join(min_ev.split(".")[0:-1]) + ".frg"
+        parejas = open(min_ev, "r")
+        evaluaciones = parejas.readlines()
+        Descifrar.reconstructSecret(evaluaciones)
+        print ("Mensaje obtenido en: ", cifrado)
 
     def reconstructSecret(shares):                   
     
@@ -40,33 +37,19 @@ class Descifrar:
             sums += Decimal(prod) 
           
         return int(round(Decimal(sums),0)) 
-    
-    """
-    def descifra():
-        shares = []
-        for x in range(2):
-            in_str = raw_input("Enter index and share separated by comma: ")
-            idx, share = [ strip(s) for s in in_str.split(",") ]
-            shares.append((idx, unhexlify(share)))
-        key = Shamir.combine(shares)
 
-        with open("enc.txt", "rb") as fi:
-            nonce, tag = [ fi.read(16) for x in range(2) ]
-            cipher = AES.new(key, AES.MODE_EAX, nonce)
-        try:
-            result = cipher.decrypt(fi.read())
-            cipher.verify(tag)
-            with open("clear2.txt", "wb") as fo:
-                fo.write(result)
-        except ValueError:
-            print ("The shares were incorrect")
-    """
+    def getDescencriptado(llave, datos):
+        nonce = datos[:AES.block_size]
+        tag = datos[AES.block_size:AES.block_size * 2]
+        ciphertext = datos[AES.block_size * 2:]
 
-    def decrypt(key, data):
-        nonce = data[:AES.block_size]
-        tag = data[AES.block_size:AES.block_size * 2]
-        ciphertext = data[AES.block_size * 2:]
-
-        cipher = AES.new(key, AES.MODE_EAX, nonce)
+        cipher = AES.new(llave, AES.MODE_EAX, nonce)
     
         return cipher.decrypt_and_verify(ciphertext, tag)
+
+    def decrypt_file(file_name, key):
+        with open(file_name, 'rb') as fo:
+            ciphertext = fo.read()
+        #dec = decrypt(ciphertext, key)
+        with open(file_name[:-4], 'wb') as fo:
+            fo.write("dec")

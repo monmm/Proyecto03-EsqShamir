@@ -16,7 +16,7 @@ $ sudo apt-get install python3-pip
 Luego, debe instalar las siguientes paqueterías:
 
 ```sh
-$ pip install pycrypto
+$ 
 ```
 ```sh
 $ pip install pycryptodomex

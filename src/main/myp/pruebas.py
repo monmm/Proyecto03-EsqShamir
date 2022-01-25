@@ -8,6 +8,10 @@ from Cryptodome.Cipher import AES
 from math import ceil 
 from decimal import *
 import secrets
+import os
+import random
+import struct
+from Cryptodome import Random
    
       
 global field_size 
@@ -75,6 +79,33 @@ def retrieve_original(secrets):
             factor *= el * (el - cur).inverse()
         acc += factor * secrets[i][1]
     return acc
+
+    def pad(s):
+        return s + b"\0" * (AES.block_size - len(s) % AES.block_size)
+
+    def encrypt(message, key, key_size=256):
+        print(key)
+        message = Cifrar.pad(message)
+        iv = Random.new().read(AES.block_size)
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        return iv + cipher.encrypt(message)
+
+    def encrypt_file(key, filename, chunk_size=64*1024):
+        output_filename = filename + '.encrypted'
+        iv = ''.join(chr(random.randint(0, 0xFF)) for i in range(16))
+        encryptor = AES.new(key, AES.MODE_CBC, iv)
+        filesize = os.path.getsize(filename)
+        with open(filename, 'rb') as inputfile:
+            with open(output_filename, 'wb') as outputfile:
+                outputfile.write(struct.pack('<Q', filesize))
+                outputfile.write(iv)
+                while True:
+                    chunk = inputfile.read(chunk_size)
+                    if len(chunk) == 0:
+                        break
+                    elif len(chunk) % 16 != 0:
+                        chunk += ' ' * (16 - len(chunk) % 16)
+                    outputfile.write(encryptor.encrypt(chunk))
   
 if __name__ == '__main__': 
       
@@ -97,5 +128,5 @@ if __name__ == '__main__':
     
     pool = random.sample(shares, t) 
     print('\nCombining shares:', *pool) 
-    print("Reconstructed secret:", reconstructSecret(pool)) 
+    print("Reconstructed secret:", reconstructSecret(pool))     
     

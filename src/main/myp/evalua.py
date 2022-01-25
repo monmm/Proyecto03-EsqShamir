@@ -28,8 +28,11 @@ class Evalua:
 
     def toString(shares):
         s = ""     
-
+        c = 0
         for i in shares:
-            s += str(i) + "\n"
-
+            if c < len(shares)-1:
+                s += str(i) + "\n"
+                c += 1
+            else:
+                s += str(i)
         return s

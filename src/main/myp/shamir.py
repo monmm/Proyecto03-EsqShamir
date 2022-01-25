@@ -10,8 +10,6 @@ from descifrar import Descifrar
 import sys
 # Usamos os para verificar la existencia de nuestros archivos
 import os
-# Usamos unidecode para simplicar el texto a ocultar
-from unidecode import unidecode
 
 class Shamir:
 
@@ -39,7 +37,7 @@ class Shamir:
             if len(sys.argv) != 4:
                 Shamir.imprimeUso("Se requieren 3 argumentos, usted introdujo %d" % (len(sys.argv) - 1))
             else:
-                Shamir.verificaDecifrar(sys.argv[2:4]);            
+                Shamir.verificaDescifrar(sys.argv[2:4]);            
         elif (sys.argv[1] != "c" and sys.argv[1] != "d"):
             Shamir.imprimeUso("La entrada es incorrecta")
 
@@ -83,11 +81,7 @@ class Shamir:
         if not os.path.isfile(arr[3]):
             sys.exit("No se encontró el archivo de texto claro")            
         else:                      
-            Cifrar.getCifrado(arr[0], n, t, arr[3])
-        print("Nombre del archivo para guardar las evaluaciones " + arr[0])                
-        print("Número de evaluaciones: " + arr[1])
-        print("Número mínimo de evaluaciones: " + arr[2])
-        print("El archivo claro es: " + arr[3])  
+            Cifrar.getCifrado(arr[0], n, t, arr[3])  
     
     def verificaDescifrar(arr):
         """
@@ -103,15 +97,11 @@ class Shamir:
         SystemExit -- Si la imagen recibida no es válida
         """
         if not os.path.isfile(arr[0]):
-            sys.exit("No se encontró el archivo con las evaluaciones")            
-        else:
-            print("El archivo con al menos t evaluaciones es: " + arr[0])
-            #Descifrar.llamaDescifrar(arr[0], arr[1])     
+            sys.exit("No se encontró el archivo con las evaluaciones")        
         if not os.path.isfile(arr[1]):
-            sys.exit("No se encontró el archivo de texto cifrado")            
+            sys.exit("No se encontró el archivo de texto cifrado")        
         else:
-            print("El archivo de texto cifrado es: " + arr[1])
-            #Descifrar.llamaDescifrar(arr[0], arr[1])    
+            Descifrar.getDescifrado(arr[0], arr[1])
 
 if __name__ == "__main__":
     Shamir.verifica()
