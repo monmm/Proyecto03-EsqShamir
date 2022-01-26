@@ -22,7 +22,7 @@ class Shamir:
         
         Que tenga las banderas adecuadas 
         - c para cifrar
-        - d para decifrar
+        - d para descifrar
         y reciba los argumentos correspondientes.
         En caso contrario, imprime el modo de uso del programa.
         """
@@ -30,12 +30,12 @@ class Shamir:
             Shamir.imprimeUso("%s" % sys.argv[0])
         elif (sys.argv[1] == "c"):        
             if len(sys.argv) != 6:
-                Shamir.imprimeUso("Se requieren 5 argumentos, usted introdujo %d" % (len(sys.argv) - 1))
+                Shamir.imprimeUso("Se requieren 5 argumentos para cifrar, usted introdujo %d" % (len(sys.argv) - 1))
             else:
                 Shamir.verificaCifrar(sys.argv[2:6])        
         elif (sys.argv[1] == "d"):
             if len(sys.argv) != 4:
-                Shamir.imprimeUso("Se requieren 3 argumentos, usted introdujo %d" % (len(sys.argv) - 1))
+                Shamir.imprimeUso("Se requieren 3 argumentos para descifrar, usted introdujo %d" % (len(sys.argv) - 1))
             else:
                 Shamir.verificaDescifrar(sys.argv[2:4]);            
         elif (sys.argv[1] != "c" and sys.argv[1] != "d"):
@@ -49,12 +49,12 @@ class Shamir:
         Parametros:
         mensaje -- error de entrada capturado
         """
-        print ("USO: " + mensaje)
-        doc = "\n CIFRAR: \n - c nombre_guardar_n_ev num_ev_requeridas "        
-        doc += "num_min_descifrar archivo_claro \n\n"
-        doc += " Dónde el número de evaluaciones requeridas es n > 2 y \n"
-        doc += " el mínimo número de evaluaciones a descifrar es​ 1 < t ≤ n ​\n\n"
-        doc += " DECIFRAR: \n - d archivo_con_t_ev archivo_cifrado \n"
+        print ("\n USO: " + mensaje)
+        doc = "\n CIFRAR: \n\n"        
+        doc += "   >>> c nombre_evaluaciones n t archivo_claro \n\n"
+        doc += " Dónde 'n' es el número de evaluaciones requeridas (n > 2) \n"
+        doc += " Y 't' son los puntos mínimos para descifrar (1 < t ≤ n) ​\n\n"
+        doc += " DECIFRAR: \n\n   >>> d archivo_evaluaciones archivo_cifrado \n"
         sys.exit(doc)
 
     def verificaCifrar(arr):
@@ -62,10 +62,11 @@ class Shamir:
         Verifica que la entrada para cifrar sea correcta y 
         llama al metodo correspondiente para ello.
         
-        Verifica que el archivo claro a cifrar exista, 
+        Verifica que el archivo claro exista y que los 
+        valores de n y t sean correctos,
         en caso de que no, imprime el modo de uso.
         Asume que el metodo es destructivo y no verifica 
-        si los nombres de destino ya existen.
+        si el nombre de destino ya existe.
         
         Parametros:
         arr -- la entrada con los argumentos recibidos
@@ -73,13 +74,13 @@ class Shamir:
         SystemExit -- Si la entrada recibida no es válida
         """
         n = int(arr[1])
-        t = int(arr[2])        
+        t = int(arr[2])
         if (n < 2):
-            sys.exit("El número de evaluaciones requeridas es n > 2 ")        
+            Shamir.imprimeUso("El número de evaluaciones requeridas es n > 2 ")        
         if (t > n or t < 2):
-            sys.exit("El mínimo número de evaluaciones a descifrar es​ 1 < t ≤ n")                
+            Shamir.imprimeUso("El mínimo número de evaluaciones a descifrar es​ 1 < t ≤ n")                
         if not os.path.isfile(arr[3]):
-            sys.exit("No se encontró el archivo de texto claro")            
+            Shamir.imprimeUso("No se encontró el archivo de texto claro")            
         else:                      
             Cifrar.getCifrado(arr[0], n, t, arr[3])  
     
@@ -97,9 +98,9 @@ class Shamir:
         SystemExit -- Si la imagen recibida no es válida
         """
         if not os.path.isfile(arr[0]):
-            sys.exit("No se encontró el archivo con las evaluaciones")        
+            Shamir.imprimeUso("No se encontró el archivo con las evaluaciones")        
         if not os.path.isfile(arr[1]):
-            sys.exit("No se encontró el archivo de texto cifrado")        
+            Shamir.imprimeUso("No se encontró el archivo de texto cifrado")        
         else:
             Descifrar.getDescifrado(arr[0], arr[1])
 
