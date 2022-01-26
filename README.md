@@ -1,6 +1,6 @@
 # Proyecto03-EsqShamir
 
-*Aplicación en la línea de comandos para cifrar o decifrar archivos utilizando el esquema de secreto compartido de Shamir y AES.*
+*Aplicación en la línea de comandos para cifrar o descifrar archivos utilizando el esquema de secreto compartido de Shamir.*
 
 ### Prerequisitos
 
@@ -39,14 +39,14 @@ Seguido de la opción **c** para cifrar,
 * el mínimo número de evaluaciones para descifrar (1 < t ≤ n) 
 * el nombre del archivo con el texto claro.
 ```sh
-$ python3 src/main/myp/esteganografia.py h archivo_ocultar imagen_ocultar nombre_destino
+$ python3 src/main/myp/shamir.py c evaluaciones.txt n t archivoc.txt
 ```
 
 O bien, la opción **d** para descifrar, 
-* el nombre del archivo con al menos t evaluaciones del polinomio,
-* el nombre del archivo con el texto cifrado.
+* el nombre del archivo con al menos t evaluaciones del polinomio (.frg),
+* el nombre del archivo con el texto cifrado (.aes).
 ```sh
-$ python3 src/main/myp/esteganografia.py u imagen_develar nombre_destino
+$ python3 src/main/myp/shamir.py d evaluaciones.frg archivoc.txt.aes
 ```
 
 ### Ejemplo
