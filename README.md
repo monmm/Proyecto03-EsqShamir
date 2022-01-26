@@ -1,11 +1,11 @@
 # Proyecto03-EsqShamir
 
-*Aplicación en la línea de comandos para cifrar o decifrar archivos utilizando el esquema de secreto compartido de Shamir.*
+*Aplicación en la línea de comandos para cifrar o decifrar archivos utilizando el esquema de secreto compartido de Shamir y AES.*
 
 ### Prerequisitos
 
 -  Python3
--  PyPI - 
+-  PyPI - hashlib, getpass, pycryptodome
 
 Asegúrese de de tener `python3` y `pip` en su computadora:
 
@@ -16,13 +16,13 @@ $ sudo apt-get install python3-pip
 Luego, debe instalar las siguientes paqueterías:
 
 ```sh
-$ 
+$ pip install hashlib
 ```
 ```sh
-$ pip install pycryptodomex
+$ pip install getpass
 ```
 ```sh
-$ pip install mod
+$ pip install pycryptodome
 ```
 
 ### Ejecutar el Programa
@@ -52,14 +52,15 @@ $ python3 src/main/myp/esteganografia.py u imagen_develar nombre_destino
 ### Ejemplo
 - Cifrar
 ```sh
-$ python3 src/main/myp/esteganografia.py c nombre 5 3 archivo
-Evaluaciones generadas:  src/data/ev.frg
-Mensaje cifrado exitosamente:  src/data/ejemplo.aes
+$ python3 src/main/myp/shamir.py c src/data/ev.txt 5 3 src/data/msj.txt
+Contraseña: 
+Se obtuvieron las evaluaciones en: src/data/ev.frg
+Archivo cifrado exitosamente en: src/data/msj.txt.aes
 ```
 - Develar
 ```sh
-$ python3 src/main/myp/esteganografia.py d evaluaciones archivo
-Mensaje obtenido en:  src/data/ejemplo.txt
+$ python3 src/main/myp/shamir.py d src/data/ev.frg src/data/msj.txt.aes
+Archivo descifrado exitosamente en:  src/data/msj.txt
 ```
 
 ### Pruebas Unitarias

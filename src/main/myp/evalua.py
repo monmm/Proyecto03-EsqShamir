@@ -1,5 +1,5 @@
+# Utilizamos random para la lista aleatoria de coeficientes.
 import random
-from decimal import *
 
 class Evalua:
 
